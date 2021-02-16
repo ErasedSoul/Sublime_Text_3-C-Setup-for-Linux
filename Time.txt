@@ -1,0 +1,38 @@
+Automatic Date and Time Enable Kali Linux
+- February 10, 2020
+In some linux computer there is  problem with 'Automatic Date and Time' update. But they little bit confused how to solve it. Some people say it uninstall NTP (Network Time Protocol) and then reinstall it problem will be solved. But there are few things what I am going to describe about this.
+
+First of all,  let me say that what I am faced about the clock problem in Kali linux.
+Whenever I open my laptop I need to set Time and Date in Kali linux. But as I know it should be worked automatic. Then I had seen that, in my 'Date & Time' settings 'Automatic Date and Time' is not enabled. Whenever I have tried to enable it, it instantly jumps to the left side. It's not enabling. After lots of research I have come with a solution.
+
+You may can set the Hardware/System or NTP time synchronization system. I will show you the both things. But I would suggest you to use the NTP. It is little bit tough to configure but once you have done it will work till you dead. That's a joke. It will work till your next installation of Kali linux.
+How do I set the Hardware Clock in linux?
+Do you want to know when is your Hardware started its clock? Put this command in your terminal:
+sudo hwclock --show --verbose
+Let set the date and time with linux command: 
+sudo date -s "5 May 2030 18:00:00"
+OR
+sudo date --set="5 May 2030 18:00:00"
+You can also set this with a simple command: 
+sudo hwclock -w
+This is what you need to do if you want the Hardware or RTC time in your system. 
+Now lets talk about the NTP.
+How do I configure the NTP?
+If you need to set the NTP then first of all you need to purge the NTP with this command: 
+sudo apt-get purge ntp
+OR
+sudo apt purge ntp
+Now we are going to enable time synchronization with NTP. After removing NTP Package form your PC. Now need to enable NTP support in timesyncd. Before enabling this support you need to choose which server time is suitable for you. Go to this link and select an URL. I am from Asia for this reason I have gone to the Asia page then copied a link.
+Let's paste this copied link:
+sudo nano /etc/systemd/timesyncd.conf
+Now you need to find this: 
+#NTP=
+Most of the PC, NTP set as comment. We need to clear this hashtag and now it will looks like this. 
+NTP=xx.pool.ntp.org
+Through this link whenever your pc will open it will take real time from internet. So that you don't need to set time every-time. Now we need to enable the NTP with this command: 
+sudo timedatectl set-ntp true
+Now, how will you confirm is it worked or not. Put this command in your terminal: 
+sudo timedatectl status
+If you see "NTP service/synchronized: active/yes" then you will think, your working procedure is right. No need to be worry about that again. 
+And you will see in the settings "Automatic Date & Time" is enabled automatically. If you want to ensure yourself more then just restart your PC. By the way check the internet connection for the update time.
+If you want to know more about the time procedure then visit this link.
